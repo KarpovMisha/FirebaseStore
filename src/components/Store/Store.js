@@ -12,11 +12,17 @@ class Store extends Component{
 
   componentWillMount() {
     this.props.dispatch(load());
+
+    // firebase.database().ref().once('value').then((snapshot) => {
+    //   snapshot.forEach(data => {
+    //     let todos = data.val();
+    //     console.log(todos);
+    //   });
+    // });
   }
   
   render() {
     const { itemList, pageNum } = this.props;
-    console.log('pageNum', pageNum);
     return (
       <div className="storeList">
         <ol>

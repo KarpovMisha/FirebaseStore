@@ -1,11 +1,11 @@
 
-export const load = () => {
+export const load = (offset) => {
   return {
     type: 'LOAD_TODO',
     payload: 
       new Promise((resolve, reject) => {
-        const ref = firebase.database().ref().child('products').limitToLast(6);
-        ref.once('value').then((snapshot) => {
+        const ref = firebase.database().ref().child('products').orderByKey().startAt(offset).limitToFirst(6);
+        ref.once('value').then(snapshot => {
           let todos = [];
           if(snapshot) {  
             snapshot.forEach(data => {
@@ -16,7 +16,23 @@ export const load = () => {
           }
             resolve(todos);
         });
-      }
-    )
+      })
   }
 }   
+
+export const count = () => {
+  return {
+    type: 'PAGINATION_COUNTER',
+    count:
+      new Promise((resolve, reject) => {
+        const ref = firebase.database().ref().child('products');
+        ref.once('value').then(snapshot => {
+          if(snapshot) {  
+            resolve(snapshot.numChildren());
+          } else {
+            reject((Error("Network Error")));
+          }
+        });
+      })
+  }
+} 

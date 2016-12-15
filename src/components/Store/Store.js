@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { load } from '../../actions/action';
+import { load, count } from '../../actions/action';
 import StoreList from './StoreList';
 import ReactPaginate from 'react-paginate';
 
@@ -10,17 +10,22 @@ class Store extends Component{
     itemlist: PropTypes.array
   }
 
-  componentWillMount() {
-    this.props.dispatch(load());
+  constructor(props) {
+    super(props);
+    this.clickPaginat = this.clickPaginat.bind(this);
+  }
 
-    // firebase.database().ref().once('value').then((snapshot) => {
-    //   snapshot.forEach(data => {
-    //     let todos = data.val();
-    //     console.log(todos);
-    //   });
-    // });
+  componentWillMount() {
+    this.props.dispatch(load('0'));
+    this.props.dispatch(count());
   }
   
+  clickPaginat({ selected }) {
+    let offset = selected * '6';
+    let tmp = String(offset);
+    this.props.dispatch(load(tmp));
+  }
+
   render() {
     const { itemList, pageNum } = this.props;
     return (
@@ -39,6 +44,7 @@ class Store extends Component{
       <ReactPaginate
         pageNum={pageNum}
         containerClassName="pagination"
+        clickCallback={this.clickPaginat}
         activeClassName="active"
       />
       </div>

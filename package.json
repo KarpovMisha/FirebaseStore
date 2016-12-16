@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --watch --hot --config webpack/dev.config.js",
-    "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js"
+    "dev": "node webpack/webpack-dev-server.js",
+    "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+    "start": "node ./bin/server.js"
   },
   "keywords": [
     "webpack",
@@ -26,6 +27,7 @@
     "clean-webpack-plugin": "^0.1.10",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "html-webpack-plugin": "^2.24.1",
     "postcss": "^5.2.0",
     "postcss-loader": "^0.13.0",
     "precss": "^1.4.0",
@@ -36,6 +38,9 @@
   },
   "dependencies": {
     "axios": "^0.14.0",
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
     "firebase": "^3.6.3",
     "jsonp": "^0.2.0",
     "node-sass": "^3.10.1",
@@ -50,6 +55,8 @@
     "redux-thunk": "^2.1.0",
     "sass-loader": "^4.0.2",
     "superagent": "^2.3.0",
-    "superagent-jsonp": "^0.1.1"
+    "superagent-jsonp": "^0.1.1",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.2"
   }
 }

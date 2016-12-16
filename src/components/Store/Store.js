@@ -7,7 +7,9 @@ import ReactPaginate from 'react-paginate';
 class Store extends Component{
   static propTypes = {
     load: PropTypes.func,
-    itemlist: PropTypes.array
+    count: PropTypes.func,
+    itemlist: PropTypes.array,
+    pageNum: PropTypes.number
   }
 
   constructor(props) {

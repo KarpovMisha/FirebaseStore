@@ -1,19 +1,36 @@
-var path = require("path");
+
+var path = require('path');
 var webpack = require("webpack");
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+var assetsPath = path.resolve(__dirname, '..', 'static', 'dist');
+var host = 'localhost';
+var port = 8080;
+var http = 'http';
+var baseAddress = http + '://' + host + (http !== 'https' && port ? (':' + port) : '') + '/';
+
 
 module.exports = {
   devtool: 'inline-source-map',
+  context: __dirname,
   entry: [
-    'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
-    './src/client'
+   'webpack-hot-middleware/client?path=' + baseAddress + '__webpack_hmr',
+    '../src/client.js'
+
+    // 'webpack/hot/dev-server',
+    // 'webpack-dev-server/client?http://localhost:8080',
+    // './src/client'
   ],
   output: {
-    path: path.resolve(__dirname, 'static', 'build'),
-    publicPath: '/static/build/',
-    filename: "bundle.js"
+    // path: path.resolve(__dirname, 'static', 'build'),
+    // publicPath: '/build/',
+    // filename: "bundle.js"
+    path: assetsPath,
+    filename: '[name].js',
+    chunkFilename: '[name].js',
+    publicPath: baseAddress
   },
 
   resolve: {
@@ -25,8 +42,20 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.NoErrorsPlugin()
-
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      inject: 'body',
+      filename: 'index.html',
+      template: path.resolve(__dirname, '..', 'static', 'index.html'),
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        removeAttributeQuotes: true,
+        collapseBooleanAttributes: true
+      }
+    })
   ],
   module: {
     loaders: [

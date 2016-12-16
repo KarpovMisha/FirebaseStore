@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 let StoreList = ({ desc, price }) => {
   return (
     <li>
-      <span>{desc}</span> {price} <button type="button">Купить</button>
+      <span>{desc} - </span> {price} <button type="button">Купить</button>
     </li>
   )
 }

@@ -25,6 +25,7 @@ const promiseMiddleware = store => next => action => {
       }
     );
   }
+
   next(action);
 };
 

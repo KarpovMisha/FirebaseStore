@@ -35,4 +35,18 @@ export const count = () => {
         });
       })
   }
-} 
+}
+
+export const createEmail = (email) => {
+  return {
+    type: 'CREATE_EMAIL',
+    email
+  }
+}
+
+export const createPassword = (password) => {
+  return {
+    type: 'CREATE_PASSWORD',
+    password
+  }
+}

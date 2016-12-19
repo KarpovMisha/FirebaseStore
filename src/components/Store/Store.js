@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { load, count } from '../../actions/action';
 import StoreList from './StoreList';
 import ReactPaginate from 'react-paginate';
+import { push } from 'react-router-redux';
 
-class Store extends Component{
+class Store extends Component {
   static propTypes = {
     load: PropTypes.func,
     count: PropTypes.func,
     itemlist: PropTypes.array,
-    pageNum: PropTypes.number
+    pageNum: PropTypes.object
   }
 
   constructor(props) {
@@ -23,6 +24,7 @@ class Store extends Component{
   }
   
   clickPaginat({ selected }) {
+    this.context.router.push(`/store/${selected}`);
     let offset = selected * '6';
     let tmp = String(offset);
     this.props.dispatch(load(tmp));
@@ -38,13 +40,14 @@ class Store extends Component{
               <StoreList 
                 desc={c.item}
                 key={i}
+                id={i}
                 price={c.price}
               />
             )
           }
         </ol>
       <ReactPaginate
-        pageNum={pageNum}
+        pageNum={pageNum.pages}
         containerClassName="pagination"
         clickCallback={this.clickPaginat}
         activeClassName="active"
@@ -52,6 +55,10 @@ class Store extends Component{
       </div>
     );
   }
+}
+
+Store.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default connect (state =>({

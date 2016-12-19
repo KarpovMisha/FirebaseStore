@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import paginationCounter from './PaginationCounter';
 import storeList from './ReducerList';
+import headerAuth from './Auth';
 
 const reducerApp = combineReducers({
-	storeList,
-	paginationCounter
+  headerAuth,
+  storeList,
+  paginationCounter
 })
 
 export default reducerApp;

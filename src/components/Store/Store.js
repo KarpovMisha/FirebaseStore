@@ -10,11 +10,16 @@ class Store extends Component {
     load: PropTypes.func,
     count: PropTypes.func,
     itemlist: PropTypes.array,
-    pageNum: PropTypes.object
+    pageNum: PropTypes.object,
+    params: PropTypes.object
   }
 
   constructor(props) {
     super(props);
+    this.state = {
+      page: this.props.params.id
+    };
+
     this.clickPaginat = this.clickPaginat.bind(this);
   }
 
@@ -23,9 +28,17 @@ class Store extends Component {
     this.props.dispatch(count());
   }
   
+  componentWillReceiveProps(nextProps) {
+    let selected = this.props.params.id;
+    let offset = selected * 6;
+    let tmp = String(offset);
+    this.props.dispatch(load(tmp));
+    // this.setState({ page: offset });
+  }
+
   clickPaginat({ selected }) {
     this.context.router.push(`/store/${selected}`);
-    let offset = selected * '6';
+    let offset = selected * 6;
     let tmp = String(offset);
     this.props.dispatch(load(tmp));
   }

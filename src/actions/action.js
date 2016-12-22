@@ -50,3 +50,23 @@ export const createPassword = (password) => {
     password
   }
 }
+
+export const sendName = (uid) => {
+  return {
+    type: 'SEND_NAME',
+    uid
+  }
+}
+
+export const addInLocalStorage = (email, uid) => {
+  let userFirebase = { 
+    email: email,
+    uid 
+  };
+  localStorage.setItem('myFirebase', JSON.stringify(userFirebase));
+  
+  return {
+    type: 'SEND_NAME',
+    uid
+  }
+}

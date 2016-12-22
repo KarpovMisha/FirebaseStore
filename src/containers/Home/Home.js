@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Store, ModalHeader, SingInUser, Basket } from 'components';
 // import { Test } from 'containers';
 import {} from '../../stylesheets/main.scss';
 
-let Home = () => {
-  return(
-    <div>
-      <Basket />   
-      <ModalHeader />
-      <SingInUser />
-      <Store />
-    </div>
-  );
-}
+export default class Home extends Component {
+  static propTypes = {
+    params: PropTypes.object
+  }
 
-export default Home;
+  render() {
+    return(
+      <div>
+        <Basket />   
+        <ModalHeader />
+        <SingInUser />
+        <Store params={this.props.params}/>
+      </div>
+    );
+  }
+}

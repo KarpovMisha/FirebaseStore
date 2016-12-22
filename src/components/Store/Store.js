@@ -17,7 +17,7 @@ class Store extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: this.props.params.id
+      page: ''
     };
 
     this.clickPaginat = this.clickPaginat.bind(this);
@@ -29,16 +29,22 @@ class Store extends Component {
   }
   
   componentWillReceiveProps(nextProps) {
-    let selected = this.props.params.id;
-    let offset = selected * 6;
+    if (this.props.params.id === undefined) {
+      this.setState({ page: 0 });
+    } else {
+      let selected = this.props.params.id;
+      let offset = selected * 6;
+      this.setState({ page: offset });
+    }
+    let offset = this.state.page; 
     let tmp = String(offset);
     this.props.dispatch(load(tmp));
-    // this.setState({ page: offset });
   }
 
   clickPaginat({ selected }) {
     this.context.router.push(`/store/${selected}`);
-    let offset = selected * 6;
+    // console.log(this.state.page);
+    let offset = this.state.page;
     let tmp = String(offset);
     this.props.dispatch(load(tmp));
   }

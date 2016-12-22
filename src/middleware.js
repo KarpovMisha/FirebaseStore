@@ -2,7 +2,6 @@ const promiseMiddleware = store => next => action => {
   if (isPromise(action.payload)) {
     action.payload.then(
       res => {
-        // console.log('promise', res);
         action.payload = res;
         store.dispatch(action);
       },
@@ -19,6 +18,17 @@ const promiseMiddleware = store => next => action => {
     action.count.then(
       res => {
         store.dispatch({ type: 'PAGINATION_COUNTER', lengthPaginat: res});
+      },
+      error => {
+
+      }
+    );
+  }
+
+  if (isPromise(action.basket)) {
+    action.basket.then(
+      res => {
+        store.dispatch({ type: 'BASKET_CLIENT', basket: res });
       },
       error => {
 

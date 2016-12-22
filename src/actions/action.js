@@ -2,29 +2,27 @@
 export const load = (offset) => {
   return {
     type: 'LOAD_TODO',
-    payload: 
-      new Promise((resolve, reject) => {
+    payload: new Promise((resolve, reject) => {
         const ref = firebase.database().ref().child('products').orderByKey().startAt(offset).limitToFirst(6);
         ref.once('value').then(snapshot => {
-          let todos = [];
-          if(snapshot) {  
-            snapshot.forEach(data => {
-              todos.push(data.val());
-            });
-          } else {
-            reject((Error("Network Error")));
-          }
-            resolve(todos);
-        });
-      })
+        let todos = [];
+        if (snapshot) {  
+          snapshot.forEach(data => {
+            todos.push(data.val());
+          });
+        } else {
+          reject((Error("Network Error")));
+        }
+          resolve(todos);
+      });
+    })
   }
 }   
 
 export const count = () => {
   return {
     type: 'PAGINATION_COUNTER',
-    count:
-      new Promise((resolve, reject) => {
+    count: new Promise((resolve, reject) => {
         const ref = firebase.database().ref().child('products');
         ref.once('value').then(snapshot => {
           if(snapshot) {  
@@ -34,6 +32,27 @@ export const count = () => {
           }
         });
       })
+  }
+}
+
+export const basketClient = (uid) => {
+  return {
+    type: 'BASKET_CLIENT',
+    basket: new Promise((resolve, reject) => {
+        const ref = firebase.database().ref().child('Basket').child(uid);
+        ref.once('value').then(snapshot => {
+        let todos = [];
+        if (snapshot) {
+          snapshot.forEach(data => {
+            todos.push(data.val());
+          });
+        } else {
+          reject((Error("Basket empty")));
+        }
+          
+          resolve(todos);
+      });
+    })    
   }
 }
 

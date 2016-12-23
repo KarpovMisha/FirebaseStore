@@ -14,12 +14,14 @@ class StoreProducts extends Component {
   }
 
   deleteProduct() {
-    console.log(this.props.client);
     let ref = firebase.database().ref().child('Basket').child(this.props.client)
     ref.once('value').then(snapshot => {
+      const todos = [];
       snapshot.forEach(data => {
-        console.log(data.key);
+        todos.push(data.key);
       });
+        const tmp = todos[this.props.id];
+        firebase.database().ref().child('Basket').child(this.props.client).child(tmp).remove();
     })
   }
 
@@ -27,7 +29,7 @@ class StoreProducts extends Component {
     const { desc, price } = this.props;
     return (
       <div>
-        <span>{desc} - </span> {price} <button type="button" onClick={this.deleteProduct}>Удалить из списка</button>
+        <span>{desc} - </span> {price} <button type="button" onClick={this.deleteProduct}>Delete</button>
       </div>
     )
   }

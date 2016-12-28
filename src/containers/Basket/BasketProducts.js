@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { removeProduct } from '../../actions/action';
 
 class StoreProducts extends Component {
   static propTypes = {
@@ -14,15 +15,16 @@ class StoreProducts extends Component {
   }
 
   deleteProduct() {
-    let ref = firebase.database().ref().child('Basket').child(this.props.client)
-    ref.once('value').then(snapshot => {
-      const todos = [];
-      snapshot.forEach(data => {
-        todos.push(data.key);
-      });
-        const tmp = todos[this.props.id];
-        firebase.database().ref().child('Basket').child(this.props.client).child(tmp).remove();
-    })
+    this.props.removeProduct(this.props.client, this.props.id);
+    // let ref = firebase.database().ref().child('Basket').child(this.props.client)
+    // ref.once('value').then(snapshot => {
+    //   const todos = [];
+    //   snapshot.forEach(data => {
+    //     todos.push(data.key);
+    //   });
+    //     const tmp = todos[this.props.id];
+    //     firebase.database().ref().child('Basket').child(this.props.client).child(tmp).remove();
+    // })
   }
 
   render() {
@@ -35,6 +37,13 @@ class StoreProducts extends Component {
   }
 }
 
-export default connect( state => ({
-  client: state.basket.uid
-}))(StoreProducts)
+export default connect( 
+  state => ({
+    client: state.basket.uid
+  }),
+  dispatch => ({
+    removeProduct: (client, id) => {
+      dispatch(removeProduct(client, id))
+    }
+  })
+)(StoreProducts)

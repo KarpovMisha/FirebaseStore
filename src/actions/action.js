@@ -49,10 +49,37 @@ export const basketClient = (uid) => {
         } else {
           reject((Error("Basket empty")));
         }
-          
           resolve(todos);
       });
     })    
+  }
+}
+
+export const removeProduct = (client, id) => {
+  return {
+    type: 'BASKET_CLIENT',
+    basket: new Promise((resolve, reject) => {
+      let ref = firebase.database().ref().child('Basket').child(client)
+      ref.once('value').then(snapshot => {
+        const todos = [];
+        snapshot.forEach(data => {
+          todos.push(data.key);
+        });
+        const tmp = todos[id];
+        ref.child(tmp).remove();
+        ref.once('value').then(snapshot => {
+          let todos = [];
+          if (snapshot) {
+            snapshot.forEach(data => {
+              todos.push(data.val());
+            });
+          } else {
+            reject((Error('Can not remove')));
+          }
+            resolve(todos);
+        });
+      })
+    })
   }
 }
 
